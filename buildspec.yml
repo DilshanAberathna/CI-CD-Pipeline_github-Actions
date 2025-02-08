@@ -1,0 +1,40 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - echo "Installing system dependencies..."
+      - apt-get update -y
+      - apt-get install -y curl
+      - curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+      - apt-get install -y nodejs
+
+  pre_build:
+    commands:
+      - echo "Configuring environment..."
+      - echo "MONGODB_URI=${MONGODB_URI}" > server/.env
+      - cat server/.env # Verify creation (optional)
+
+  build:
+    commands:
+      - echo "Installing dependencies..."
+      - cd client && npm install
+      - cd ../server && npm install
+      - cd ..
+
+      - echo "Building React frontend..."
+      - cd client && npm run build
+      - cd ..
+
+  post_build:
+    commands:
+      - echo "Build completed!"
+
+artifacts:
+  files:
+    - "**/*"
+  base-directory: client/build
+  secondary-artifacts:
+    ServerArtifacts:
+      files:
+        - "server/**/*"
+      base-directory: server
