@@ -29,5 +29,5 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: pm2 list
-    - run: pm2 restart BackendAPI --update-env
+    - run: pm2 restart api --update-env
     - run: pm2 logs BackendAPI
