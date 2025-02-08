@@ -23,6 +23,14 @@ app.use(ShowRouter);
 const PORT = 7800;
 const db_url = "mongodb+srv://user2025:user147@cluster0.lgldw.mongodb.net/sitedata";
 
+app.use("/api/users", userRouter);
+
+app.use("/api/reservations", (req, res) => {
+    return res.status(200).json({
+        message: "Welcome to the reservation API",
+    });
+});
+
 mongoose.connect(db_url)
     .then(() => {
         console.log("Database is connected");
